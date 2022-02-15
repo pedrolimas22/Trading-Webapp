@@ -1,0 +1,73 @@
+<html>
+    <style>
+    table, th, td {
+      border:.5px solid black;
+      text-align: center;
+    }
+    </style>
+    <head>
+        <title>
+            Binance Charting Webapp
+        </title>
+    </head>
+
+    <body>
+
+    <!-- <div id = "tradingView_chart"> 
+        <script src = "https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>        
+    </div> -->
+
+    <div id = "chart">
+        <script src = "{{ url_for('static', filename='chart.js') }}"> </script>
+    </div>
+
+    <div id="trades" style="border: solid gray 1px; padding: 20px; margin-top: 20px; margin-bottom: 5px; width: 600px;">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div style="border: red 2px; background-color: pink; margin-bottom: 10px;"></div>
+            
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+        
+        <input type="text" id="quantity" name="quantity" placeholder="0.001" style="margin-right: 10px;">
+        <form action="/buy" method="POST">
+            <select id="symbol" name="symbol">
+                {% for symbol in my_tkn_tick %}
+                    <option>{{symbol}}</option>
+                {% endfor %}
+        </form>
+        <input type="button" name="buy" value="buy">
+    </div>
+
+    <div id="my_balances">    
+
+        <h1>Balances</h1>
+
+        <table>
+            <tr>
+                <th>Token</th> 
+                <th>Price [€]</th>                    
+                <th>Spot Balance</th>
+                <th>Combined Value [€] </th>
+            </tr>
+            {% for tkn_tick, tkn_prc, tkn_spot_val, tkn_eur_val in my_tkn_pr_spot %}
+            <tr>
+                <td> {{ tkn_tick }} </td> 
+                <td> {{ tkn_prc }} € </td>
+                <td> {{ tkn_spot_val }} </td>
+                <td> {{ tkn_eur_val }} € </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Binance wallet euro value: {{ my_wallet }}</h2>
+
+    </div>
+
+    </body>
+
+</html>
