@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>
+            Binance API Charts
+        </title>
+    </head>
+
+    <body>
+
+        
+    <div>
+        <script src = "./chart.js"> </script>
+    </div>
+    <div id = "Price">
+
+        <button onclick="updateValue">Update</button>
+        <script src = "https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>        
+    </div>
+    <div id = "chart">
+        <script src = "./chart.js"> </script>
+    </div>
+
+        <script>
+            // var binanceSocket = new WebSocket("wss://stream.binance.com:9443/ws/ethbusd@kline_1h") // GET 1H CANDLE VALUES
+            var binanceSocket = new WebSocket("wss://stream.binance.com:9443/ws/etheur@trade")
+
+            console.log(binanceSocket)
+            var tradeDIV = document.getElementById('Price')
+
+            
+            
+            updateValue = function() {
+
+            }
+
+            binanceSocket.onmessage = function(event) {
+                var messageObject = JSON.parse(event.data); // CONVERSÃO DOS ELEMENTOS A SEREM RECEBIDOS EM FORMATO JSON
+            
+                setTimeout(tradeDIV.append(messageObject.p), 5000)
+
+
+                // console.log(event.data);
+            }
+
+
+
+        </script>
+
+    </body>
+
+
+</html>
